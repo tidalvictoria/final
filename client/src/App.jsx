@@ -7,7 +7,8 @@ import StaffDashboard from './pages/StaffDashboard';
 import IndividualDashboard from './pages/IndividualDashboard';
 import MyDocsPage from './pages/MyDocsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { AuthProvider } from './contexts/AuthContext'; // Assuming you create this
+import { AuthProvider } from './contexts/AuthContext';
+import ContactSupport from './pages/ContactSupport.jsx';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/individual-dashboard" element={<IndividualDashboard />} />
                 <Route path="/my-docs" element={<MyDocsPage />} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<ContactSupport />} />
             </Routes>
             </div>
         </Router>
