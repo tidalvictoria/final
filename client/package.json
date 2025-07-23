@@ -13,6 +13,7 @@
     "clsx": "^2.1.1",
     "cra-template-pwa": "2.0.0",
     "lucide-react": "^0.525.0",
+    "mongodb": "^6.18.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
