@@ -1,6 +1,8 @@
+// server/controllers/authController.js
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const { sendEmail } = require('../utils/emailService'); // Already imported, good!
 
 // Generate JWT
 const generateToken = (id) => {
@@ -25,25 +27,53 @@ const registerUser = async (req, res) => {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create user
-    const user = await User.create({
-        username,
-        email,
-        password,
-        role,
-        agencyId: role === 'Staff' ? agencyId : null,
-    });
-
-    if (user) {
-        res.status(201).json({
-        _id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user._id),
+    try { // Add try-catch for database operation and email sending
+        // Create user
+        const user = await User.create({
+            username,
+            email,
+            password,
+            role,
+            agencyId: role === 'Staff' ? agencyId : null,
         });
-    } else {
-        res.status(400).json({ message: 'Invalid user data' });
+
+        if (user) {
+            // --- Send a welcome email ---
+            const welcomeSubject = 'Welcome to HealthcareHR!';
+            const welcomeText = `Hello ${username},\n\nWelcome to the Home HealthHR Portal! Your account has been successfully created.`;
+            const welcomeHtml = `
+                <p>Hello <strong>${username}</strong>,</p>
+                <p>Welcome to the Home HealthHR Portal! Your account has been successfully created.</p>
+                <p>You can now log in and start managing your HR needs.</p>
+                <p>Best regards,<br/>The HealthcareHR Team</p>
+            `;
+
+            try {
+                await sendEmail(email, welcomeSubject, welcomeText, welcomeHtml);
+                console.log(`Welcome email sent to ${email}`);
+            } catch (emailError) {
+                console.error(`Failed to send welcome email to ${email}:`, emailError);
+                // Decide how to handle email failure:
+                // Option 1: Log and continue (user is still registered)
+                // Option 2: Rollback user creation (more complex, requires transactions)
+                // For now, we'll log and proceed with user registration success.
+            }
+            // --- End of email sending ---
+
+            res.status(201).json({
+                _id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(400).json({ message: 'Invalid user data' });
+        }
+    } catch (error) {
+        // Catch database errors during user creation
+        console.error('Error during user registration:', error);
+        res.status(500).json({ message: 'Server Error during registration' });
     }
 };
 
@@ -58,11 +88,11 @@ const loginUser = async (req, res) => {
 
     if (user && (await user.matchPassword(password))) {
         res.json({
-        _id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user._id),
+            _id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id),
         });
     } else {
         res.status(400).json({ message: 'Invalid credentials' });
