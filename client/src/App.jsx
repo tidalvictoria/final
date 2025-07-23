@@ -9,6 +9,8 @@ import MyDocsPage from './pages/MyDocsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { AuthProvider } from './contexts/AuthContext';
 import ContactSupport from './pages/ContactSupport.jsx';
+import LaunchingSoon from './pages/LaunchingSoon.jsx';
+
 
 function App() {
     return (
@@ -16,7 +18,9 @@ function App() {
         <Router>
             <div className="min-h-screen bg-gray-100 font-inter">
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                {/* Set "/" for default landing page */}
+                <Route path="/" element={<LaunchingSoon />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/agency-dashboard" element={<AgencyDashboard />} />
                 <Route path="/staff-dashboard" element={<StaffDashboard />} />
