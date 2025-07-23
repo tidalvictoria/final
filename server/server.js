@@ -4,6 +4,8 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const invitationRoutes = require('./routes/invitationRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const subscriberRoutes = require('./routes/subscriberRoutes');
+
 
 // Load env vars
 dotenv.config({ path: './.env' });
@@ -35,7 +37,9 @@ app.use('/api/events', require('./routes/eventRoutes'));
 app.use('/api/renewals', require('./routes/renewalRoutes')); 
 app.use('/api/subscriptions', require('./routes/subscriptionRoutes')); 
 app.use('/api/contact', require('./routes/contactRoutes'));
-app.use('/api/invitations', invitationRoutes); 
+app.use('/api/invitations', invitationRoutes);
+app.use('/api/subscribe', subscriberRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 
