@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LaunchingSoon = () => {
+const LaunchingSoonPage = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -43,9 +43,20 @@ const LaunchingSoon = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 font-inter">
       <div className="bg-white p-10 rounded-lg shadow-xl max-w-lg w-full text-center">
+        <img
+          src="/Healthcare HR Logo.PNG" // Path relative to the public folder
+          alt="HealthcareHR Logo"
+          className="mx-auto mb-6 h-32 w-auto rounded-md"
+        />
+
         <h1 className="text-4xl font-extrabold text-blue-600 mb-4">Launching Soon!</h1>
+        {/* Added short description here */}
+        <p className="text-gray-600 text-lg mb-4">
+          The HealthcareHR Portal is your upcoming solution for streamlined Human Resources management,
+          offering features like secure document handling, e-signatures, notifications, and user-role based dashboards.
+        </p>
         <p className="text-gray-700 text-lg mb-8">
-          We're working hard to bring you the best Healthcare HR solution.
+          We're working hard to bring you the best HR solution for your agency!
           Enter your email below to be notified when we launch!
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
@@ -75,4 +86,4 @@ const LaunchingSoon = () => {
   );
 };
 
-export default LaunchingSoon;
+export default LaunchingSoonPage;

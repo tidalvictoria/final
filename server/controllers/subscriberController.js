@@ -1,4 +1,3 @@
-subscriberController.js
 const Subscriber = require('../models/Subscriber');
 
 // @desc    Add a new email to the launch list
